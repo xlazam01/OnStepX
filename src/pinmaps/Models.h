@@ -3,6 +3,10 @@
 #pragma once
 
 #if PINMAP == MiniPCB
+  #define PINMAP_STR "Juwei17"
+  #include "Pins.Juwei17.h"
+#endif
+#if PINMAP == MiniPCB
   #define PINMAP_STR "MiniPCB v1"
   #include "Pins.MiniPCB.h"
 #endif
