@@ -2,7 +2,7 @@
 // Loads pinmap model for current configuration
 #pragma once
 
-#if PINMAP == MiniPCB
+#if PINMAP == Juwei17
   #define PINMAP_STR "Juwei17"
   #include "Pins.Juwei17.h"
 #endif
