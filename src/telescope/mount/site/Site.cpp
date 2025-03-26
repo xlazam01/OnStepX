@@ -136,6 +136,8 @@ void Site::init() {
       tlsFallback = new TlsSd3031;
     #elif TIME_LOCATION_SOURCE_FALLBACK == TEENSY
       tlsFallback = new TlsTeensy;
+    #elif TIME_LOCATION_SOURCE_FALLBACK == STM32
+      tlsFallback = new TlsStm32;
     #endif
 
     #if TIME_LOCATION_SOURCE == DS3231
@@ -150,6 +152,8 @@ void Site::init() {
       tls = new TlsSd3031;
     #elif TIME_LOCATION_SOURCE == TEENSY
       tls = new TlsTeensy;
+    #elif TIME_LOCATION_SOURCE == STM32
+      tls = new TlsStm32;     
     #endif
 
     initError.tls = !tls->init();

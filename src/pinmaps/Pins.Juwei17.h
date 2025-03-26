@@ -5,13 +5,30 @@
 #if defined(STM32F411xE) || defined(STM32F401xC)
 
 // For an 8KB EEPROM on the MaxSTM3.6I
-#define NV_M24C64
+//#define NV_M24C64
 
 
 // Serial ports (see Pins.defaults.h for SERIAL_A)
 // Serial1 RX1 Pin PA10, TX1 Pin PA9
 // Serial2 RX2 Pin PA3 , TX2 Pin PA2
 // Serial6 RX6 Pin PA12, TX6 Pin PA11 (used for USB virtual serial)
+
+#define DEDICATED_MODE_PINS
+
+#if defined(STEP_DIR_TMC_UART_PRESENT) || defined(SERVO_TMC2209_PRESENT)
+//  #define DRIVER_TMC_STEPPER
+  #define SERIAL_TMC_RX               PA6
+  #define SERIAL_TMC_TX               PB9
+  #define SERIAL_TMC_BAUD             9600 
+  #define SERIAL_TMC_ADDRESS_MAP(x)   ((x==4)?2 : x) // Axis1(0) is 0, Axis2(1) is 1, Axis3(2) is 2, Axis4(3) is 3, Axis5(4) is 2
+  #define SERIAL_TMC_RX_DISABLE false
+#endif
+
+#define PIN_INIT() { \
+  pinMode(PB9, OUTPUT);\
+  digitalWrite(PB9, HIGH);\
+}
+
 
 #if SERIAL_A_BAUD_DEFAULT != OFF
   #define SERIAL_A              Serial
@@ -35,17 +52,6 @@
     #define SERIAL_GPS_TX       PA9
   #endif
 #endif
-
-// The multi-purpose pins (Aux3..Aux8 can be analog pwm/dac if supported)
-#define AUX0_PIN                PB12             // Status LED
-#define AUX1_PIN                PA6              // TMC SPI MISO/Fault
-#define AUX2_PIN                PA13             // PPS
-#define AUX3_PIN                PB13             // Home SW
-#define AUX4_PIN                PB14             // 1-Wire, Home SW
-#define AUX5_PIN                PA9              // TX1 
-#define AUX6_PIN                PA10             // RX1
-#define AUX7_PIN                PB15             // Limit SW
-#define AUX8_PIN                PA8              // Reticle LED, 1-Wire alternate
 
 // Misc. pins
 #ifndef ONE_WIRE_PIN
@@ -79,22 +85,22 @@
   #define LIMIT_SENSE_PIN       PB15
 #endif
 
+#define SHARED_ENABLE_PIN       PB8    
 // Axis1 RA/Azm step/dir driver
-#define AXIS1_ENABLE_PIN        PC14
+#define AXIS1_ENABLE_PIN        SHARED
 #define AXIS1_M0_PIN            OFF
 #define AXIS1_M1_PIN            OFF
-#define AXIS1_M2_PIN            PC15        // UART TX
+#define AXIS1_M2_PIN            PB9        // UART TX
 #define AXIS1_M3_PIN            PA6         // UART RX
 #define AXIS1_STEP_PIN          PB10
 #define AXIS1_DIR_PIN           PB2
 #define AXIS1_SENSE_HOME_PIN    PB13
 
-
 // Axis2 Dec/Alt step/dir driver
-#define AXIS2_ENABLE_PIN        PC14
+#define AXIS2_ENABLE_PIN        SHARED
 #define AXIS2_M0_PIN            OFF
 #define AXIS2_M1_PIN            OFF
-#define AXIS2_M2_PIN            PC15        // UART TX
+#define AXIS2_M2_PIN            PB9        // UART TX
 #define AXIS2_M3_PIN            PA6         // UART RX
 #define AXIS2_STEP_PIN          PA4
 #define AXIS2_DIR_PIN           PB0

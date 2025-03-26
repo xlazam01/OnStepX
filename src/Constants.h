@@ -88,7 +88,8 @@
 #define TEENSY                      4      // TEENSY3.2 RTC (Built-in)
 #define GPS                         5      // GPS device
 #define NTP                         6      // NTP
-#define TLS_LAST                    6
+#define STM32                       7
+#define TLS_LAST                    7
 
 // PIER SIDE
 #define PIER_SIDE_FIRST             1
